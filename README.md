@@ -1,61 +1,64 @@
-# ⚡ EnergyZero ETL Pipeline (Docker + Apache Airflow + Python) ## 🧩 Proje Özeti Bu proje, **EnergyZero API** üzerinden enerji fiyat verilerini çekip, **Apache Airflow** ile zamanlanmış şekilde işleyip, veriyi **Parquet formatına** dönüştürür. Tüm bileşenler **Docker** üzerinde çalışır. Böylece her sistemde kolayca tekrarlanabilir bir veri hattı (ETL pipeline) kurulabilir. --- ## 🚀 Proje Yapısı energyzero_etl/ │ ├── docker-compose.yml ├── requirements.txt │ ├── dags/ │ └── energyzero_etl.py # Airflow DAG (zamanlama ve görev akışı) │ ├── scripts/ │ ├── extract_energyzero.py # API'den veri çekme (JSON) │ └── transform_pandas.py # JSON'u Parquet'e dönüştürme │ ├── data/ │ ├── raw/ # Ham JSON verileri │ └── processed/ # İşlenmiş Parquet dosyaları │ └── README.md yaml Kodu kopyala --- ## ⚙️ Çalıştırma Adımları ### 1️⃣ Docker Ortamını Başlat
-bash
+# ⚡ EnergyZero ETL Pipeline
+
+## 🧩 Project Overview
+This project fetches energy price data from the **EnergyZero API**, processes it with **Apache Airflow**, and converts it to **Parquet** format. All components run in **Docker**, making the pipeline portable and reproducible.
+
+## 🚀 Project Structure
+energyzero_etl/
+│
+├── docker-compose.yml
+├── requirements.txt
+├── dags/
+│ └── energyzero_etl.py # Airflow DAG
+├── scripts/
+│ ├── extract_energyzero.py # Fetch JSON from API
+│ └── transform_pandas.py # Transform JSON to Parquet
+├── data/
+│ ├── raw/ # Raw JSON files
+│ └── processed/ # Transformed Parquet files
+└── README.md
+
+markdown
+Kodu kopyala
+
+## ⚙️ Running the Project
+1. **Start Docker Environment**  
+```bash
 docker-compose up -d
-Bu komut, aşağıdakileri başlatır:
+This launches:
 
-Airflow webserver
+Airflow webserver & scheduler
 
-Airflow scheduler
+PostgreSQL database
 
-PostgreSQL veritabanı
+Airflow UI: http://localhost:8080
+Username: airflow | Password: airflow
 
-Airflow arayüzü:
-👉 http://localhost:8080
+Run the DAG
+Turn on the energyzero_etl DAG in the Airflow UI and trigger it manually or wait for the schedule.
 
-Kullanıcı adı: airflow
-Şifre: airflow
+Outputs
 
-2️⃣ Airflow Arayüzünden DAG’i Çalıştır
-energyzero_etl isimli DAG’i "On" konumuna getir.
+Raw data: data/raw/
 
-Manuel olarak Trigger DAG diyerek başlat.
+Processed data: data/processed/energy_transformed.parquet
 
-Görevler:
+🧠 Key Learnings
+Build multi-component ETL pipelines in Docker
 
-extract_energyzero_json → EnergyZero API'den JSON dosyası çeker.
+Schedule tasks using Apache Airflow
 
-transform_json_to_parquet → JSON'u Parquet formatına dönüştürür.
+Transform JSON to Parquet using Pandas
 
-3️⃣ Çıktılar
-Ham veriler → data/raw/
+💡 Next Steps / Improvements
+Load Parquet into PostgreSQL or DuckDB
 
-İşlenmiş veriler → data/processed/energy_transformed.parquet
+Add logging or error notifications to Airflow DAG
 
-🧠 Öğrenilenler
-Docker ortamında çok bileşenli veri hattı oluşturmak
+Extend API date ranges
 
-Airflow ile görev akışı (DAG) planlamak
+Create visualization scripts with Matplotlib or Plotly
 
-Pandas ile veri dönüştürmek
-
-JSON → Parquet dönüşümü
-
-Kapsüllenmiş (containerized) veri mühendisliği projesi geliştirmek
-
-💡 Geliştirme Fikirleri
-Parquet dosyasını PostgreSQL veya DuckDB’ye yükle
-
-Airflow DAG’e hata loglaması ekle
-
-API tarih aralıklarını genişlet
-
-Matplotlib veya Plotly ile görselleştirme ekle
-
-📷 Örnek Görseller
-(İsteğe bağlı: Airflow arayüzü, terminal çıktısı veya klasör yapısı ekran görüntüsü eklenebilir)
-
-👨‍💻 Geliştirici
-Mustapha Haybat
-📍 Netherlands
-🔗 [LinkedIn profilini buraya ekle]
-📦 Proje yapısı: Python, Airflow, Docker, PostgreSQL, Pandas
+👨‍💻 Developer
+Mustapha Haybat | Netherlands
+🔗 LinkedIn Profile https://www.linkedin.com/in/mustafa-haybat-86725235a/
